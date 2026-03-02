@@ -14,7 +14,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Sistema de Inventario",
+    title="Sistema de Inventario - FastAPI",
     description="Sistema de gestión de inventario con FastAPI y MongoDB",
     version="1.0.0",
     lifespan=lifespan,
