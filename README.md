@@ -13,7 +13,6 @@ API RESTful para gestión de inventario con autenticación JWT, permitiendo gest
 ## 🏗 Estructura
 
 ```
-curso_platzi/
 ├── app/
 │   ├── config.py              # Configuración
 │   ├── database.py            # Conexión MongoDB
