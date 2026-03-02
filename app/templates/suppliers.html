@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Proveedores - Sistema de Inventario{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-truck"></i> Gestión de Proveedores</h2>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Nuevo Proveedor</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/suppliers/create" class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Nombre de Empresa</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Nombre de Contacto</label>
+                        <input type="text" name="contact_name" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">RUC</label>
+                        <input type="text" name="ruc" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Teléfono</label>
+                        <input type="text" name="phone" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Dirección</label>
+                        <input type="text" name="address" class="form-control" required>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-success">Crear Proveedor</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0"><i class="bi bi-list"></i> Lista de Proveedores</h5>
+    </div>
+    <div class="card-body">
+        {% if suppliers %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Empresa</th>
+                        <th>Contacto</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>RUC</th>
+                        <th>Dirección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for supplier in suppliers %}
+                    <tr>
+                        <td>{{ supplier.name }}</td>
+                        <td>{{ supplier.contact_name }}</td>
+                        <td>{{ supplier.email }}</td>
+                        <td>{{ supplier.phone }}</td>
+                        <td>{{ supplier.ruc }}</td>
+                        <td>{{ supplier.address }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ supplier.id }}">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <form method="POST" action="/suppliers/delete/{{ supplier.id }}" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proveedor?')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    
+                    <div class="modal fade" id="editModal{{ supplier.id }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Editar Proveedor</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form method="POST" action="/suppliers/update/{{ supplier.id }}">
+                                    <div class="modal-body">
+                                        <div class="mb-2">
+                                            <label class="form-label">Nombre de Empresa</label>
+                                            <input type="text" name="name" class="form-control" value="{{ supplier.name }}" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Nombre de Contacto</label>
+                                            <input type="text" name="contact_name" class="form-control" value="{{ supplier.contact_name }}" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" name="email" class="form-control" value="{{ supplier.email }}" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Teléfono</label>
+                                            <input type="text" name="phone" class="form-control" value="{{ supplier.phone }}" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">RUC</label>
+                                            <input type="text" name="ruc" class="form-control" value="{{ supplier.ruc }}" required>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="form-label">Dirección</label>
+                                            <input type="text" name="address" class="form-control" value="{{ supplier.address }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-muted">No hay proveedores registrados</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

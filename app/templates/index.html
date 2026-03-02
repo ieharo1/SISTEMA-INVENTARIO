@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Sistema de Inventario{% endblock %}
+
+{% block content %}
+<div class="row align-items-center min-vh-75">
+    <div class="col-12 text-center">
+        <h1 class="display-4 mb-4">
+            <i class="bi bi-box-seam text-primary"></i> Sistema de Inventario
+        </h1>
+        <p class="lead text-muted mb-5">
+            Gestiona tus productos, proveedores y movimientos de inventario de manera eficiente
+        </p>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-box text-primary display-4"></i>
+                        <h5 class="card-title mt-3">Productos</h5>
+                        <p class="card-text text-muted">Administra tu catálogo de productos con facilidad</p>
+                        {% if request.cookies.get('access_token') %}
+                        <a href="/products" class="btn btn-primary">Ver Productos</a>
+                        {% else %}
+                        <a href="/login" class="btn btn-primary">Iniciar Sesión</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-truck text-success display-4"></i>
+                        <h5 class="card-title mt-3">Proveedores</h5>
+                        <p class="card-text text-muted">Gestiona tus proveedores y contactos comerciales</p>
+                        {% if request.cookies.get('access_token') %}
+                        <a href="/suppliers" class="btn btn-success">Ver Proveedores</a>
+                        {% else %}
+                        <a href="/login" class="btn btn-success">Iniciar Sesión</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-arrow-left-right text-warning display-4"></i>
+                        <h5 class="card-title mt-3">Movimientos</h5>
+                        <p class="card-text text-muted">Registra entradas y salidas de inventario</p>
+                        {% if request.cookies.get('access_token') %}
+                        <a href="/movements" class="btn btn-warning">Ver Movimientos</a>
+                        {% else %}
+                        <a href="/login" class="btn btn-warning">Iniciar Sesión</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if not request.cookies.get('access_token') %}
+        <div class="mt-5">
+            <a href="/login" class="btn btn-primary btn-lg px-5">
+                <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+            </a>
+            <a href="/register" class="btn btn-outline-primary btn-lg px-5 ms-2">
+                <i class="bi bi-person-plus"></i> Registrarse
+            </a>
+        </div>
+        {% else %}
+        <div class="mt-5">
+            <a href="/dashboard" class="btn btn-primary btn-lg px-5">
+                <i class="bi bi-speedometer2"></i> Ir al Dashboard
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

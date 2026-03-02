@@ -1,22 +1,12 @@
-# curso_platzi
+# Sistema de Inventario - FastAPI
 
-Proyecto JavaScript del curso de Platzi para prácticas de desarrollo web.
+Sistema de gestión de inventario con FastAPI, MongoDB y Bootstrap 5.
 
 ---
 
 ## 📝 Descripción
 
-Aplicación JavaScript desarrollada durante el curso de Platzi, enfocada en conceptos de desarrollo frontend moderno. Incluye prácticas de JavaScript ES6+, consumo de APIs y manejo de datos asíncronos.
-
----
-
-## 🎯 Para qué sirve
-
-- Prácticas de JavaScript moderno
-- Desarrollo de aplicaciones web interactivas
-- Uso de APIs y manejo de datos
-- Aprendizaje de conceptos frontend
-- Portafolio de ejercicios
+API RESTful para gestión de inventario con autenticación JWT, permitiendo gestionar productos, proveedores y movimientos de inventario.
 
 ---
 
@@ -24,10 +14,28 @@ Aplicación JavaScript desarrollada durante el curso de Platzi, enfocada en conc
 
 ```
 curso_platzi/
-├── html/              # Archivos HTML
-├── css/               # Estilos CSS
-├── js/                # Scripts JavaScript
-├── assets/            # Imágenes y recursos
+├── app/
+│   ├── config.py              # Configuración
+│   ├── database.py            # Conexión MongoDB
+│   ├── main.py                # Aplicación FastAPI
+│   ├── schemas/
+│   │   └── schemas.py         # Modelos Pydantic
+│   ├── services/
+│   │   └── auth_service.py    # Autenticación JWT
+│   ├── repositories/
+│   │   └── repository.py      # CRUD operations
+│   ├── routes/
+│   │   ├── auth.py            # Rutas de autenticación
+│   │   └── inventory.py       # Rutas de inventario
+│   └── templates/             # Plantillas HTML
+│       ├── base.html
+│       ├── index.html
+│       ├── login.html
+│       ├── dashboard.html
+│       ├── products.html
+│       ├── suppliers.html
+│       └── movements.html
+├── requirements.txt
 └── README.md
 ```
 
@@ -35,13 +43,13 @@ curso_platzi/
 
 ## 💻 Requisitos
 
-- Navegador web moderno
-- Editor de código (VS Code recomendado)
-- Node.js (para algunos ejercicios)
+- Python 3.8+
+- MongoDB
+- Node.js (opcional)
 
 ---
 
-## 🚀 Uso
+## 🚀 Instalación
 
 1. **Clonar el repositorio:**
    ```bash
@@ -49,33 +57,59 @@ curso_platzi/
    cd curso_platzi
    ```
 
-2. **Abrir en navegador:**
-   - Abrir archivos HTML directamente
-   - O usar servidor local:
+2. **Crear entorno virtual:**
    ```bash
-   npx serve
+   python -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   venv\Scripts\activate    # Windows
    ```
+
+3. **Instalar dependencias:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Configurar MongoDB:**
+   - Asegúrate de tener MongoDB ejecutándose en `localhost:27017`
+   - O modifica la URL en `app/config.py`
+
+5. **Ejecutar el servidor:**
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+
+6. **Acceder a la aplicación:**
+   - Abre `http://localhost:8000` en tu navegador
 
 ---
 
 ## 🛠️ Stack Tecnológico
 
-- JavaScript ES6+
-- HTML5
-- CSS3
-- APIs externas
+- **Backend:** FastAPI, Python 3.8+
+- **Base de datos:** MongoDB con Motor
+- **Frontend:** Bootstrap 5, Jinja2
+- **Autenticación:** JWT
+- **Validación:** Pydantic
 
 ---
 
-## 📚 Contenido
+## 📦 Colecciones MongoDB
 
-- Manipulación del DOM
-- Fetch API y async/await
-- Eventos y listeners
-- LocalStorage
-- Consumo de APIs públicas
-- Prácticas de lógica
+- `users` - Usuarios del sistema
+- `products` - Catálogo de productos
+- `suppliers` - Proveedores
+- `inventory_movements` - Movimientos de inventario
 
+---
+
+## ✨ Características
+
+- Login/Registro con JWT
+- CRUD completo de productos
+- Gestión de proveedores
+- Registro de movimientos (entradas/salidas)
+- Dashboard con métricas
+- Alertas de stock mínimo
 
 ---
 
@@ -91,4 +125,3 @@ curso_platzi/
 ---
 
 © 2026 Isaac Esteban Haro Torres - Todos los derechos reservados.
-

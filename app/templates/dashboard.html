@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Sistema de Inventario{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Dashboard</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-box"></i> Total Productos</h5>
+                <h2 class="display-4">{{ stats.total_products }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-truck"></i> Proveedores</h5>
+                <h2 class="display-4">{{ stats.total_suppliers }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-arrow-left-right"></i> Movimientos</h5>
+                <h2 class="display-4">{{ stats.total_movements }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-currency-dollar"></i> Valor Total</h5>
+                <h2 class="display-4">${{ "%.2f"|format(stats.total_value) }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Productos con Stock Bajo</h5>
+            </div>
+            <div class="card-body">
+                {% if stats.low_stock_products %}
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Stock</th>
+                            <th>Mín Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in stats.low_stock_products %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td><span class="badge bg-danger">{{ product.quantity }}</span></td>
+                            <td>{{ product.min_stock }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="text-muted">No hay productos con stock bajo</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-bar-chart"></i> Resumen de Movimientos</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h4 class="text-success"><i class="bi bi-arrow-down-circle"></i> Entradas</h4>
+                        <h2>{{ stats.entries_count }}</h2>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="text-danger"><i class="bi bi-arrow-up-circle"></i> Salidas</h4>
+                        <h2>{{ stats.exits_count }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0"><i class="bi bi-clock-history"></i> Movimientos Recientes</h5>
+    </div>
+    <div class="card-body">
+        {% if stats.recent_movements %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unit.</th>
+                    <th>Referencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for movement in stats.recent_movements %}
+                <tr>
+                    <td>{{ movement.created_at.strftime('%Y-%m-%d %H:%M') if movement.created_at else 'N/A' }}</td>
+                    <td>
+                        {% if movement.movement_type == 'entry' %}
+                        <span class="badge bg-success">Entrada</span>
+                        {% else %}
+                        <span class="badge bg-danger">Salida</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ movement.quantity }}</td>
+                    <td>${{ "%.2f"|format(movement.unit_price) }}</td>
+                    <td>{{ movement.reference or 'N/A' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-muted">No hay movimientos recientes</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
